@@ -1,39 +1,42 @@
-def moveRight():
-    print("vacum cleaner is moving right to b")
-    location="B"
-def moveLeft():
-    print("vacum cleaner is moving left to a")
-    location="A"
-def suck(currentState,goalState,location):
-    if location=="A":
-        if(currentState["A"]=="dirty"):
-                print("performing cleaning operation on A")
-                currentState["A"]="clean"
-                print("location a is cleaned")
-                print("---------------------------------------------")
-        if(currentState["B"]=="dirty"):
-                moveRight()
+#define functions 
+def suck(goal_state,current_state,location):
+    while(goal_state!=current_state):
+        if location=="A":
+            if current_state["A"]=="dirty":
+                print("performing cleaning operation in a")
+                current_state["A"]="clean"
+                print("-----------------------------------")
+            if current_state["B"]=="dirty":
+                move_left()
                 print("performing cleaning operation on B")
-                currentState["B"]="clean"
-                print("location b is cleaned")
-                print("---------------------------------------------")
+                current_state["B"]="clean"
+                print("---------------------------------")
+                location="B"
+                return location
         elif location=="B":
-            if(currentState["B"]=="dirty"):
-                print("performing cleaning operation on B")
-                currentState["B"]="clean"
-                print("location b is cleaned")
-                print("---------------------------------------------")
-            if(currentState["A"]=="dirty"):
-                moveLeft()
-                print("performing cleaning operation on a")
-                currentState["B"]="clean"
-                print("location a is cleaned")
-                print("---------------------------------------------")
-goalState={"A":"clean","B":"clean"}
-currentState={"A":"clean","B":"clean"}
-location=input("enter the location of the vacum cleaner")
-for i in currentState.keys():
-        currentState[i]=input("specify weather room "+i+" is clean/Dirty: ")
-while(currentState!=goalState):
-    suck(currentState,goalState,location)
-
+            if(current_state["B"]=="dirty"):
+                print("performing cleaning operation in B")
+                current_state["B"]="clean"
+                print("---------------------------------")
+            if current_state["A"]=="dirty":
+                move_right()
+                print("performing cleaning operation in A")
+                current_state["A"]="clean"
+                print("---------------------------------")
+                location="A"
+                return location
+def move_right():
+    print("the vacum cleaner is moving right to A")
+   
+def move_left():
+    print("the vacum cleaner is moving left to B")
+#main code
+goal_state={"A":"clean","B":"clean"}
+current_state={"A":"unknown","B":"unknown"}
+location=input("enter the intial position of the vacum cleaner")
+machine ="start"
+while(machine=="start"):
+    for i in current_state.keys():
+        current_state[i]=input("enter if room "+i+" is clean/dirty")
+    location=suck(goal_state,current_state,location)
+    machine=input("still want to continue cleaning process (start/exit)")
